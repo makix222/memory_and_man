@@ -33,7 +33,7 @@ def main():
         if keys[pygame.K_ESCAPE]:
             running = False
 
-        screen.fill((80,80,80))
+        screen.fill((10,10,10))
 
         beast.draw()
         player.draw()
