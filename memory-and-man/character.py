@@ -6,13 +6,12 @@ class Character:
     def __init__(self, surface: pygame.Surface):
         self.name: str
         self.pos: Point = Point()
-        self.velocity = {"target_point": Point(),
-                         "speed": 0}
+        self.velocity = pygame.math.Vector2()
         self.visual = CharacterVisual(surface)
-        self.max_speed = 10
+        self.max_speed = 1
 
     def move_towards(self, target_pos: Point):
-        self.pos = self.pos.distance_to(target_pos.vec(), self.max_speed)
+        self.velocity = self.pos.move_to(target_pos.vec(), self.max_speed)
 
     def draw(self):
         self.visual.draw(center_pos=self.pos)
@@ -23,7 +22,13 @@ class Player(Character):
         super().__init__(surface)
         self.name = "player"
         self.visual = PlayerVisual(surface)
-        self.max_speed = 30
+        self.max_speed = 3
+
+    def draw(self):
+        self.visual.draw(self.pos)
+        self.visual.draw_velocity(self.pos.vec(),
+                                  self.velocity,
+                                  scale = 1)
 
 
 class Beast(Character):
@@ -31,4 +36,4 @@ class Beast(Character):
         super().__init__(surface)
         self.name = "beast"
         self.visual = BeastVisual(surface)
-        self.max_speed = 20
+        self.max_speed = 2

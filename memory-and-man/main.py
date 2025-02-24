@@ -4,15 +4,15 @@ from character import Player, Beast
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((1200, 800))
+    width = 1200
+    height = 800
+    screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
     running = True
     dt = 0
 
-    starting_player_pos = Point((screen.get_width() * 7/10,
-                                screen.get_height() * 1/2))
-    starting_beast_pos = Point((screen.get_width() * 2/10,
-                                screen.get_height() * 1/2))
+    starting_player_pos = Point((width * .4, height * .5))
+    starting_beast_pos = Point((width * .6, height * .5))
     print(starting_beast_pos, starting_player_pos)
 
     player = Player(screen)
@@ -35,15 +35,12 @@ def main():
             running = False
 
         screen.fill((80,80,80))
-        # breakpoint()
+
         beast.draw()
         player.draw()
 
-        # beast.pos.x += 1
-        # player.pos.x += 1
-        player.move_towards(beast.pos)
         beast.move_towards(player.pos)
-        # player.move_towards(Point(pos=pygame.mouse.get_pos()))
+        player.move_towards(Point(pos=pygame.mouse.get_pos()))
 
         pygame.display.flip()
 
