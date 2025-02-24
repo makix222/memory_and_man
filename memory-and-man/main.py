@@ -13,7 +13,6 @@ def main():
 
     starting_player_pos = Point((width * .4, height * .5))
     starting_beast_pos = Point((width * .6, height * .5))
-    print(starting_beast_pos, starting_player_pos)
 
     player = Player(screen)
     player.pos = starting_player_pos
