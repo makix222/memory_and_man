@@ -1,15 +1,14 @@
 import pygame
 from conventions import Point
-from character import Player, Beast
+from world import World
+
 
 def main():
     pygame.init()
-    width = 1200
-    height = 800
-    screen = pygame.display.set_mode((width, height))
-    clock = pygame.time.Clock()
     running = True
-    dt = 0
+
+    world = World()
+    world.create_screen()
 
     starting_player_pos = Point((width * .4, height * .5))
     starting_beast_pos = Point((width * .6, height * .5))
@@ -43,7 +42,7 @@ def main():
 
         pygame.display.flip()
 
-        dt = clock.tick(60) / 1000
+        dt = clock.tick(120) / 1000
 
     pygame.quit()
 

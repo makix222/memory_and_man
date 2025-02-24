@@ -20,7 +20,8 @@ class Point:
                  clamp = None):
         if clamp:
             try:
-                new_vec = self.vec() + (target - self.vec()).clamp_magnitude(clamp)
+                new_vec = (self.vec() +
+                           (target - self.vec()).clamp_magnitude(clamp))
             except ValueError:
                 return self.vec()
         else:

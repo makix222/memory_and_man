@@ -1,4 +1,3 @@
-from typing import Union
 import pygame
 from conventions import Point
 

@@ -1,5 +1,5 @@
 import pygame
-from visuals import PlayerVisual, BeastVisual, CharacterVisual
+import character_visuals
 from conventions import Point
 
 class Character:
@@ -7,7 +7,7 @@ class Character:
         self.name: str
         self.pos: Point = Point()
         self.velocity = pygame.math.Vector2()
-        self.visual = CharacterVisual(surface)
+        self.visual = character_visuals.CharacterVisual(surface)
         self.max_speed = 1
 
     def move_towards(self, target_pos: Point):
@@ -21,7 +21,7 @@ class Player(Character):
     def __init__(self, surface):
         super().__init__(surface)
         self.name = "player"
-        self.visual = PlayerVisual(surface)
+        self.visual = character_visuals.PlayerVisual(surface)
         self.max_speed = 3
 
     def draw(self):
@@ -35,5 +35,5 @@ class Beast(Character):
     def __init__(self, surface):
         super().__init__(surface)
         self.name = "beast"
-        self.visual = BeastVisual(surface)
+        self.visual = character_visuals.BeastVisual(surface)
         self.max_speed = 2
