@@ -1,4 +1,4 @@
-import enum
+from enum import Enum
 
-class UserEvents(enum):
+class UserEvents(Enum):
     RENDER = 1

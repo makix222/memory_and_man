@@ -1,10 +1,11 @@
 import pygame
 from conventions import Point
+from simulation import World
 
 
 class CharacterVisual:
-    def __init__(self, surface: pygame.Surface):
-        self.surface = surface
+    def __init__(self, world: World):
+        self.surface = world.screen
         self.color = pygame.Color(10, 10, 10)
         self.width = 20
         self.height = 20
@@ -36,8 +37,8 @@ class CharacterVisual:
 
 
 class PlayerVisual(CharacterVisual):
-    def __init__(self, surface):
-        super().__init__(surface)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.color = pygame.Color(10, 255, 10)
 
     def draw_velocity(self,
@@ -51,8 +52,8 @@ class PlayerVisual(CharacterVisual):
 
 
 class BeastVisual(CharacterVisual):
-    def __init__(self, surface):
-        super().__init__(surface)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.color = pygame.Color(165, 15, 15)
         self.height = 30
         self.width = 30
