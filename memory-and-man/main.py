@@ -1,33 +1,45 @@
 import pygame
+from conventions import Point
+from character import Player, Beast
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((1280, 720))
+    width = 1200
+    height = 800
+    screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
     running = True
     dt = 0
 
-    player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+    starting_player_pos = Point((width * .4, height * .5))
+    starting_beast_pos = Point((width * .6, height * .5))
+
+    player = Player(screen)
+    player.pos = starting_player_pos
+    beast = Beast(screen)
+    beast.pos = starting_beast_pos
+
 
     while running:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
-        screen.fill("purple")
-
-        pygame.draw.circle(screen, "red", player_pos, 40)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            player_pos.y -= 300 * dt
-        if keys[pygame.K_s]:
-            player_pos.y += 300 * dt
-        if keys[pygame.K_a]:
-            player_pos.x -= 300 * dt
-        if keys[pygame.K_d]:
-            player_pos.x += 300 * dt
+        if keys[pygame.K_ESCAPE]:
+            running = False
+
+        screen.fill((10,10,10))
+
+        beast.draw()
+        player.draw()
+
+        beast.move_towards(player.pos)
+        player.move_towards(Point(pos=pygame.mouse.get_pos()))
 
         pygame.display.flip()
 
