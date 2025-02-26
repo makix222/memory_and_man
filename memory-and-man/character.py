@@ -1,32 +1,43 @@
 import pygame
 import character_visuals
-from conventions import Point
+from conventions import Place
 from simulation import World
+from input import LocalInput
 
 class Character:
-    def __init__(self, world: World):
+    def __init__(self, world: World, local_input: LocalInput):
         """Parameters shared between all characters in world"""
         self.world = world
-        self.name: str
-        self.pos: Point = Point()
+        self.local_input = local_input
+        self.name: str = ""
+        self.place = self.world.starting_places[self.name]
         self.velocity = pygame.math.Vector2()
         self.visual = character_visuals.CharacterVisual(world)
         self.max_speed = 1
 
-    def move_towards(self, target_pos: Point):
-        self.velocity = self.pos.move_to(target_pos.vec(), self.max_speed)
+    def update(self):
+        self.set_velocity(self.local_input.mouse.place)
+        self.update_pos()
+
+    def set_velocity(self, target: Place):
+        diff_vec = target.diff(self.place)
+        if diff_vec.length() < .1:
+            return
+        self.velocity = diff_vec.clamp_magnitude(self.max_speed)
+
+    def update_pos(self):
+        self.place.update(self.velocity)
 
     def draw(self):
-        self.visual.draw(center_pos=self.pos)
+        self.visual.draw(center_pos=self.place)
 
 
 class Player(Character):
-    def __init__(self, surface):
-        super().__init__(surface)
+    def __init__(self, surface, local_input):
         self.name = "player"
         self.visual = character_visuals.PlayerVisual(surface)
         self.max_speed = 3
-        self.pos = self.world.player_start_pos
+        super().__init__(surface, local_input)
 
     def draw(self):
         self.visual.draw(self.pos)
@@ -36,9 +47,9 @@ class Player(Character):
 
 
 class Beast(Character):
-    def __init__(self, surface):
-        super().__init__(surface)
+    def __init__(self, surface, local_input):
         self.name = "beast"
         self.visual = character_visuals.BeastVisual(surface)
         self.max_speed = 2
-        self.pos = self.world.beast_start_pos
+        super().__init__(surface, local_input)
+

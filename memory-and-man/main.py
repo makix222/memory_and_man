@@ -13,12 +13,9 @@ def main():
 
     while running:
 
-        for event in pygame.event.get():
+        for event in pygame.event.get(pygame.QUIT):
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.USEREVENT:
-                if event.dict['name'] == UserEvents.RENDER:
-                    game.render_update()
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:

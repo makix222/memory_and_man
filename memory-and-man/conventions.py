@@ -1,7 +1,9 @@
+from typing import Type
+
 import pygame
 
 
-class Point:
+class Place:
     def __init__(self, pos=(None, None)):
         self.x: int = pos[0]
         self.y: int = pos[1]
@@ -15,17 +17,20 @@ class Point:
     def vec(self):
         return pygame.Vector2(self.x, self.y)
 
-    def move_to(self,
-                 target: pygame.Vector2,
-                 clamp = None):
-        if clamp:
-            try:
-                new_vec = (self.vec() +
-                           (target - self.vec()).clamp_magnitude(clamp))
-            except ValueError:
-                return self.vec()
-        else:
-            new_vec = self.vec() + (target - self.vec())
-        self.x = new_vec.x
-        self.y = new_vec.y
-        return new_vec
+    def pos(self):
+        return self.x, self.y
+
+    def diff(self, target) -> pygame.Vector2:
+        return target.vec() - self.vec()
+
+    def update(self, velocity: pygame.Vector2):
+        new_pos = self.vec() + velocity
+        self.x = new_pos.x
+        self.y = new_pos.y
+
+
+def event_handler(event_dict: dict):
+    for event in pygame.event.get(list(event_dict.keys()), pump=False):
+        event_func = event_dict.get(event.type)
+        if event_func:
+            event_func(event=event)

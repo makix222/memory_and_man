@@ -1,5 +1,5 @@
 import pygame
-from conventions import Point
+from conventions import Place
 from simulation import World
 
 
@@ -11,25 +11,25 @@ class CharacterVisual:
         self.height = 20
         self.rect = None
 
-    def gen_rect(self, center_pos: Point):
-        midpoint = Point((
+    def gen_rect(self, center: Place):
+        midpoint = Place((
             int(self.width / 2),
             int(self.height / 2)
         ))
         if not self.rect:
             try:
                 self.rect = pygame.Rect(
-                    ((center_pos.x - midpoint.x),
-                     (center_pos.y - midpoint.y)),
+                    ((center.x - midpoint.x),
+                     (center.y - midpoint.y)),
                     (self.width, self.height))
             except TypeError as e:
                 print(e)
                 breakpoint()
         else:
-            self.rect.left = (center_pos.x - midpoint.x)
-            self.rect.top = (center_pos.y - midpoint.y)
+            self.rect.left = (center.x - midpoint.x)
+            self.rect.top = (center.y - midpoint.y)
 
-    def draw(self, center_pos: Point):
+    def draw(self, center_pos: Place):
         self.gen_rect(center_pos)
         pygame.draw.rect(self.surface,
                          self.color,
