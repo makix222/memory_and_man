@@ -10,7 +10,7 @@ class Character:
         self.world = world
         self.local_input = local_input
         self.name: str = ""
-        self.place = self.world.starting_places[self.name]
+        self.place = None
         self.velocity = pygame.math.Vector2()
         self.visual = character_visuals.CharacterVisual(world)
         self.max_speed = 1
@@ -29,27 +29,29 @@ class Character:
         self.place.update(self.velocity)
 
     def draw(self):
-        self.visual.draw(center_pos=self.place)
+        self.visual.draw(self.place)
 
 
 class Player(Character):
-    def __init__(self, surface, local_input):
+    def __init__(self, world, local_input):
+        super().__init__(world, local_input)
         self.name = "player"
-        self.visual = character_visuals.PlayerVisual(surface)
+        self.visual = character_visuals.PlayerVisual(world)
         self.max_speed = 3
-        super().__init__(surface, local_input)
+        self.place = self.world.starting_places[self.name]
 
     def draw(self):
-        self.visual.draw(self.pos)
-        self.visual.draw_velocity(self.pos.vec(),
+        self.visual.draw(self.place)
+        self.visual.draw_velocity(self.place.vec(),
                                   self.velocity,
                                   scale = 1)
 
 
 class Beast(Character):
-    def __init__(self, surface, local_input):
+    def __init__(self, world, local_input):
+        super().__init__(world, local_input)
         self.name = "beast"
-        self.visual = character_visuals.BeastVisual(surface)
+        self.visual = character_visuals.BeastVisual(world)
         self.max_speed = 2
-        super().__init__(surface, local_input)
+        self.place = self.world.starting_places[self.name]
 

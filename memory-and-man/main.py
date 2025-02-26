@@ -8,10 +8,11 @@ def main():
     running = True
 
     game = Game()
-    game.create_screen()
     game.create_characters()
 
     while running:
+
+        game.update()
 
         for event in pygame.event.get(pygame.QUIT):
             if event.type == pygame.QUIT:
@@ -21,7 +22,7 @@ def main():
         if keys[pygame.K_ESCAPE]:
             running = False
 
-        game.update()
+
 
         pygame.display.flip()
 

@@ -22,15 +22,15 @@ class CharacterVisual:
                     ((center.x - midpoint.x),
                      (center.y - midpoint.y)),
                     (self.width, self.height))
-            except TypeError as e:
+            except AttributeError as e:
                 print(e)
                 breakpoint()
         else:
             self.rect.left = (center.x - midpoint.x)
             self.rect.top = (center.y - midpoint.y)
 
-    def draw(self, center_pos: Place):
-        self.gen_rect(center_pos)
+    def draw(self, center: Place):
+        self.gen_rect(center)
         pygame.draw.rect(self.surface,
                          self.color,
                          self.rect)
@@ -42,13 +42,14 @@ class PlayerVisual(CharacterVisual):
         self.color = pygame.Color(10, 255, 10)
 
     def draw_velocity(self,
-                      center_pos: pygame.Vector2,
+                      place: pygame.Vector2,
                       velocity: pygame.Vector2,
                       scale: float):
-        pygame.draw.line(self.surface,
-                         self.color,
-                         center_pos,
-                         velocity * scale)
+        if velocity.length() != 0:
+            pygame.draw.line(surface=self.surface,
+                             color=self.color,
+                             start_pos=place,
+                             end_pos=velocity.normalize() * scale)
 
 
 class BeastVisual(CharacterVisual):

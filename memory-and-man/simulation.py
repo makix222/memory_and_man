@@ -21,10 +21,10 @@ class World:
         self.screen = screen
         self.width = self.screen.get_width()
         self.height = self.screen.get_height()
-        self.middle = Place((self.width * .5, self.height * .5))
+        self.center = Place((self.width * .5, self.height * .5))
         self.px_to_meter = 10
         self.sim_init()
-        self.starting_places = {"player": self.middle,
+        self.starting_places = {"player": self.center,
                                 "beast": Place((self.width * .3,
                                                 self.height * .3))}
         self.debug_color = (10, 10, 10)
@@ -40,6 +40,6 @@ class World:
         self.screen.fill((10, 10, 10))
         pygame.draw.circle(self.screen,
                            color=self.debug_color,
-                           center=self.middle.pos(),
+                           center=self.center.pos(),
                            radius=40,
                            width=2)

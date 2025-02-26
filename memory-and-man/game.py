@@ -49,8 +49,9 @@ class Game:
         self.renderer.render_update()
 
     def window_focused(self, event):
-        pygame.event.set_grab(True)
-        pygame.mouse.set_visible(False)
+        # pygame.event.set_grab(True)
+        # pygame.mouse.set_visible(False)
+        # pygame.mouse.set_pos(self.world.center.pos())
         self.world.debug_color = (255,12,12)
         self.sim.pause()
 
