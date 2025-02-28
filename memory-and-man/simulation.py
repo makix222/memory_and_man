@@ -1,45 +1,26 @@
 import pygame
-from conventions import Place
 
 class Simulation:
     def __init__(self):
         self.sim_tick_rate = 300
         self.clock = pygame.time.Clock()
         self.paused = False
+        self.update_list = []
+
+    def add_objects_to_update(self, update_object):
+        if not hasattr(update_object, "update"):
+            raise ValueError(f"provided object {update_object} does not have a draw function")
+        self.update_list.append(update_object)
 
     def tick(self):
         self.clock.tick(self.sim_tick_rate)
+        if not self.paused:
+            for each_entity in self.update_list:
+                each_entity.update()
 
     def pause(self):
         self.paused = True
 
+
     def unpause(self):
         self.paused = False
-
-class World:
-    def __init__(self, screen: pygame.Surface):
-        self.screen = screen
-        self.width = self.screen.get_width()
-        self.height = self.screen.get_height()
-        self.center = Place((self.width * .5, self.height * .5))
-        self.px_to_meter = 10
-        self.sim_init()
-        self.starting_places = {"player": self.center,
-                                "beast": Place((self.width * .3,
-                                                self.height * .3))}
-        self.debug_color = (10, 10, 10)
-
-
-    def sim_init(self):
-        # Used later post init
-        # Consumes sim and visual tick rates, size of screen
-        # Sets object speeds and other values like friction
-        pass
-
-    def draw(self):
-        self.screen.fill((10, 10, 10))
-        pygame.draw.circle(self.screen,
-                           color=self.debug_color,
-                           center=self.center.pos(),
-                           radius=40,
-                           width=2)

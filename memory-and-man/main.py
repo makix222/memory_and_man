@@ -1,6 +1,5 @@
 import pygame
 from game import Game
-from enums import UserEvents
 
 
 def main():

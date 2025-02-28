@@ -1,14 +1,15 @@
 import pygame
-from enums import UserEvents
-from simulation import World
+from events import EventUser, EventHandler
+from world import World
 
 class Renderer:
-    def __init__(self, world: World):
+    def __init__(self, world: World, event_handler: EventHandler):
         """Sets up the render pipeline. Sets fps, sets render event timer."""
-        self.render_mills = int(1000 / 60)
-        render_event = pygame.event.Event(pygame.USEREVENT,
-                                          {"name": UserEvents.RENDER})
-        pygame.time.set_timer(render_event, self.render_mills)
+        self.fps = 60
+        render_event = event_handler.make_event(EventUser.render,
+                                                EventUser.game,
+                                                {})
+        pygame.time.set_timer(render_event, millis=int(1000/self.fps))
         self.objects_to_draw = [world] # Must draw the world first.
 
     def add_objets_to_draw(self, draw_object):

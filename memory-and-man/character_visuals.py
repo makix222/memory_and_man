@@ -1,6 +1,6 @@
 import pygame
-from conventions import Place
-from simulation import World
+from place import Place
+from world import World
 
 
 class CharacterVisual:
@@ -12,22 +12,17 @@ class CharacterVisual:
         self.rect = None
 
     def gen_rect(self, center: Place):
-        midpoint = Place((
-            int(self.width / 2),
-            int(self.height / 2)
-        ))
-        if not self.rect:
+        if self.rect is None:
             try:
-                self.rect = pygame.Rect(
-                    ((center.x - midpoint.x),
-                     (center.y - midpoint.y)),
-                    (self.width, self.height))
+                self.rect = pygame.Rect(center.x - self.width / 2,
+                                        center.y - self.height / 2,
+                                        self.width,
+                                        self.height)
             except AttributeError as e:
                 print(e)
                 breakpoint()
         else:
-            self.rect.left = (center.x - midpoint.x)
-            self.rect.top = (center.y - midpoint.y)
+            self.rect.center = center.pos()
 
     def draw(self, center: Place):
         self.gen_rect(center)
@@ -35,21 +30,25 @@ class CharacterVisual:
                          self.color,
                          self.rect)
 
+    def draw_velocity(self,
+                      place: Place,
+                      orientation: pygame.Vector2,
+                      scale: float = 1.0):
+        if orientation.length() != 0:
+            pygame.draw.line(surface=self.surface,
+                             color=self.color,
+                             start_pos=place.vec(),
+                             end_pos=place.vec() + orientation * scale,
+                             width=2)
+    # def draw_target(self,
+    #                 place,
+    #                 target):
+
 
 class PlayerVisual(CharacterVisual):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.color = pygame.Color(10, 255, 10)
-
-    def draw_velocity(self,
-                      place: pygame.Vector2,
-                      velocity: pygame.Vector2,
-                      scale: float):
-        if velocity.length() != 0:
-            pygame.draw.line(surface=self.surface,
-                             color=self.color,
-                             start_pos=place,
-                             end_pos=velocity.normalize() * scale)
 
 
 class BeastVisual(CharacterVisual):
