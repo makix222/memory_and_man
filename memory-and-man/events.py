@@ -31,7 +31,6 @@ class EventHandler:
         event_type = self.custom_event_types.get(event_id)
         if not event_type:
             event_type = pygame.event.custom_type()
-            print(f'created event: {event_id} -- {event_type} logged to: {self.custom_event_types}')
             self.custom_event_types[event_id] = event_type
         return pygame.event.Event(event_type, data)
 

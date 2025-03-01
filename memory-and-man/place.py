@@ -29,12 +29,27 @@ class Place:
     def pos(self):
         return self.x, self.y
 
-    def point_to(self, target) -> pygame.Vector2:
-        return (target.vec() - self.vec()).normalize()
+    def point_to(self,
+                 target: pygame.Vector2,
+                 normalized=True) -> pygame.Vector2:
+        diff = target - self.vec()
+        if normalized:
+            diff = diff.normalize()
+        return diff
 
-    def move_place(self, velocity: pygame.Vector2):
-        if velocity.magnitude() == 0:
+    def move_place(self,
+                   orientation: pygame.Vector2=None,
+                   speed=None,
+                   velocity: pygame.Vector2=None):
+        if velocity is None:
+            if not orientation or not speed:
+                raise ValueError("Cant move without either a velocity, or an orientation and speed")
+            velocity = orientation * speed
+            new_pos = self.vec() + velocity
+            self.x = new_pos.x
+            self.y = new_pos.y
             return
-        new_pos = self.vec() + velocity
-        self.x = new_pos.x
-        self.y = new_pos.y
+        temp_vec = self.vec() + velocity
+        self.x = temp_vec.x
+        self.y = temp_vec.y
+

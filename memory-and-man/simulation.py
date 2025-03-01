@@ -2,7 +2,7 @@ import pygame
 
 class Simulation:
     def __init__(self):
-        self.sim_tick_rate = 300
+        self.sim_tick_rate = 120
         self.clock = pygame.time.Clock()
         self.paused = False
         self.update_list = []
