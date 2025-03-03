@@ -122,7 +122,7 @@ class Beast(Character):
         self._post_init()
 
     def update(self):
-        player_data = self.event_handler.get_event_data(consumer=EventUser.beast, producer=EventUser.player)
+        player_data = self.event_handler.get_event_data(producer=EventUser.player, consumer=EventUser.beast)
         if len(player_data) > 0:
             self.state['focus_place'] = player_data[-1]['place']
             distance_to_player = self.place.point_to(self.state['focus_place'].vec(), normalized=False).magnitude()

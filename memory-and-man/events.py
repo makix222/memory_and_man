@@ -47,5 +47,5 @@ class EventHandler:
         event_type = self.custom_event_types.get(event_id)
         if event_type is None:
             return []
-        return [x.dict for x in pygame.event.get(event_type, pump=False)]
+        return [x.dict for x in pygame.event.get(event_type)]
 
