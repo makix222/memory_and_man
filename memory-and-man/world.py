@@ -13,7 +13,7 @@ class World:
         self.width = self.screen.get_width()
         self.height = self.screen.get_height()
         self.center = Place(pos=(self.width * .5, self.height * .5))
-        self.px_to_meter = 10
+        self.px_per_meter = 10
         self.sim_init()
         self.starting_places: Dict[str: Place] = {"player": Place(pos=(self.width * .8,
                                                                       self.height * .8)),
